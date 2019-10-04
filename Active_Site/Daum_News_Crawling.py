@@ -17,6 +17,7 @@ while loop and count<10:
         element = WebDriverWait(driver, 5).until(
             EC.presence_of_element_located((By.CSS_SELECTOR, '#alex-area > div > div > div > div.cmt_box > div.alex_more > a'))
         )
+        #EC와 BY는 같이 쓴다. WebDriverWait에 같이 씀!
         more_button = driver.find_element_by_css_selector('#alex-area > div > div > div > div.cmt_box > div.alex_more > a')
         webdriver.ActionChains(driver).click(more_button).perform()
         count += 1
