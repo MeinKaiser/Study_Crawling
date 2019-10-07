@@ -1,0 +1,24 @@
+1. 시작하기
+    scrapy startproject ( 프로젝트 이름 )
+2. spider 만들어내기
+    scrapy genspider ( 스파이더 이름 )
+3. 실행시키기
+    scrapy crawl ( 프로젝트 이름 )
+#allowed domains 는 이제 그 주소가 들어간 것만 허용하겠다는 Option 이다!
+
+4. scrapy Shell이란?
+    scrapy shell ' 주소 ' 를 치면, 쥬피터 노트북 같은 느낌의 shell을 띄워준다.
+    Shell에서는 이제 바로바로 결과물들을 볼 수 있다.
+    response.css('head>title::text).get() 혹은 getall()로 가져올 수 있다.
+    text로 하면, 실제 내용만 들고오게된다.
+
+5. Xpath로 사용하기
+    response.xpath("//div[@class='best-list']/ul/li/a/text()").getall()
+    Xpath는 text만 가져오는 방식이 살짝 다르다! /text()로 진행한다.
+
+6. 키워드별로 뽑아내기
+    뒤에 .re('(\w+)')을 사용하면, 데이터를 단여별로 쪼개서 list로 넣어준다.
+    키워드만 뽑아낸다!
+    Ex) response.xpath("//div[@class='best-list']/ul/li/a/text()")[2].re('(\w+)')
+
+7. 
