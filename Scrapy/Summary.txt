@@ -21,4 +21,51 @@
     키워드만 뽑아낸다!
     Ex) response.xpath("//div[@class='best-list']/ul/li/a/text()")[2].re('(\w+)')
 
-7. 
+7.  item.py에서 어떤 데이터들을 가져올지 선언해놓으면, parse가 그 아이템에 대해서 item으로 던져준다!
+    그러면 이걸 어케하나?!
+    Field선언한 목적지로 넣고, yeild하면된다, 객체는 하나하나씩
+
+8.  scrapy crawl gmarket_Best -o gmarket_title.csv -t csv
+    이렇게 치면 item으로 넘어간걸 바로 csv파일로 출력해준다.. ㄷㄷ
+    xml도 가능하다!
+    심지어 json도 가능하다..
+
+9. Json은 꺠지니까 따로 해줘야되는 것이 있다.
+    Settings에 들어가서, 설정을 해줘야된다, 인코딩 방식을 UTF-8로 바꿔줘야함
+    FEED_EXPORT_ENCODING = 'utf-8' 이녀석 해줘야함
+
+10. Pipeline은 Item으로 온 데이터들을 후처리하는 기능이다!
+    1. 저장하지 않거나
+    2. 데이터베이스에 넣거나
+    3. 특별한 포멧으로 저장하고 싶을 때! Pipeline을 사용함.
+
+    크롤링 프로그램이 커질수록 그 필요성이 더더욱 커진다!!
+    #replace 함수 기억해두기
+
+11.     ITEM_PIPELINES = {
+    'ecommerce.pipelines.EcommercePipeline': 300,
+    }
+    settings에서 이 녀석을 살려줘야 파이프 라인을 사용하겠다가 되는것임
+    그 뒤에 있는 숫자는 우선순위이니 크게 문제 없음.
+
+12. from scrapy.exceptions import DropItem
+    이 녀석을 가져와서, Pipeline에서 조건에 안맞는 녀석들을 제거해줄 수 있다.
+            def process_item(self, item, spider):
+        print(item)
+        if int(item['price']) > 10000:
+            return item
+        else:
+            raise DropItem("ByeBye")
+        return item
+    이런식으로 가능하다
+
+13. def start_requests(self):
+    yield scrapy.Request(url='http://corners.gmarket.co.kr/Bestsellers', callback = self.parse)
+    spider에 이런식으로 작성할 수 있다.
+    저것의 의미는, url을 request해라 , 그리고나서 다 완료하고나서는 self.parse를 실행해라! 라는 뜻임
+
+    이걸로 하면, 이제 어떻게 파싱할 것인지 사이트마다 다르게할 수 있다!
+    또, 계속 붙여서 여러개의 사이트를 크롤링 할 수 있다.
+    
+
+
